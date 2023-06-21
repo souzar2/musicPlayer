@@ -9,7 +9,6 @@ let musicas = [
     {titulo:'Long Live (Taylor\'s Version)', artista:'Taylor Swift', src:'musicas/14- Long Live.mp3', img:'imagens/Speak NowTV.png'},
     {titulo:'Born this way', artista:'Lady Gaga', src:'musicas/Born This Way.mp3', img:'imagens/born this way.jpg'}
 ];
-
 shuffleArray(musicas);
 
 let musica = document.querySelector('audio');
@@ -50,6 +49,7 @@ document.querySelector('.proxima').addEventListener('click', () => {
 
 // Funções
 function renderizarMusica(index){
+    shuffleArray(musicas);
     musica.setAttribute('src', musicas[index].src);
     musica.addEventListener('loadeddata', () => {
         nomeMusica.textContent = musicas[index].titulo;
