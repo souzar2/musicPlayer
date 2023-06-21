@@ -10,6 +10,8 @@ let musicas = [
     {titulo:'Born this way', artista:'Lady Gaga', src:'musicas/Born This Way.mp3', img:'imagens/born this way.jpg'}
 ];
 
+shuffleArray(musicas);
+
 let musica = document.querySelector('audio');
 let indexMusica = 0;
 
@@ -86,3 +88,32 @@ function segundosParaMinutos(segundos){
 
     return campoMinutos+':'+campoSegundos;
 }
+
+// Função para sortear números aleatórios sem repetições em um intervalo
+function getRandomNumber(min, max) {
+    if (min > max) {
+      throw new Error("O valor mínimo deve ser menor ou igual ao valor máximo.");
+    }
+  
+    if (!getRandomNumber.initialized) {
+      getRandomNumber.initialized = true;
+      getRandomNumber.numbers = [];
+    }
+  
+    if (getRandomNumber.numbers.length === 0) {
+      for (let i = min; i <= max; i++) {
+        getRandomNumber.numbers.push(i);
+      }
+      shuffleArray(getRandomNumber.numbers);
+    }
+  
+    return getRandomNumber.numbers.pop();
+  }
+  
+  // Função para embaralhar o array
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
