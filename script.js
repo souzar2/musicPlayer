@@ -42,7 +42,6 @@ divElement.addEventListener('click', (event) => {
     const percentage = Math.floor((offsetX / divWidth) * 100);
   
     // Exibe a posição em porcentagem
-    console.log(`Posição horizontal em porcentagem: ${percentage}%`);
     musica.currentTime = porcentagemParaCurrentTime(percentage, musica.duration);
 });
 
