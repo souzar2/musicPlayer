@@ -29,6 +29,23 @@ document.querySelector('.botao-pause').addEventListener('click', pausarMusica);
 
 musica.addEventListener('timeupdate', atualizarBarra);
 
+const divElement = document.querySelector('.barra');
+
+divElement.addEventListener('click', (event) => {
+    // Obtém a largura total da div
+    const divWidth = divElement.offsetWidth;
+  
+    // Obtém o deslocamento horizontal do clique dentro da div
+    const offsetX = event.clientX - divElement.getBoundingClientRect().left;
+  
+    // Calcula a posição em porcentagem
+    const percentage = Math.floor((offsetX / divWidth) * 100);
+  
+    // Exibe a posição em porcentagem
+    console.log(`Posição horizontal em porcentagem: ${percentage}%`);
+    musica.currentTime = porcentagemParaCurrentTime(percentage, musica.duration);
+});
+
 document.querySelector('.anterior').addEventListener('click', () => {
     indexMusica--;
     if (indexMusica < 0) {
@@ -49,7 +66,6 @@ document.querySelector('.proxima').addEventListener('click', () => {
 
 // Funções
 function renderizarMusica(index){
-    shuffleArray(musicas);
     musica.setAttribute('src', musicas[index].src);
     musica.addEventListener('loadeddata', () => {
         nomeMusica.textContent = musicas[index].titulo;
@@ -76,6 +92,15 @@ function atualizarBarra(){
     barra.style.width = Math.floor((musica.currentTime / musica.duration) * 100) + '%';
     let tempoDecorrido = document.querySelector('.inicio');
     tempoDecorrido.textContent = segundosParaMinutos(Math.floor(musica.currentTime));
+
+    if(musica.currentTime == musica.duration){
+        indexMusica++;
+    if (indexMusica > 2){
+        indexMusica = 0;
+    }
+    renderizarMusica(indexMusica);
+    tocarMusica();
+    }
 }
 
 function segundosParaMinutos(segundos){
@@ -89,7 +114,7 @@ function segundosParaMinutos(segundos){
     return campoMinutos+':'+campoSegundos;
 }
 
-// Função para sortear números aleatórios sem repetições em um intervalo
+
 function getRandomNumber(min, max) {
     if (min > max) {
       throw new Error("O valor mínimo deve ser menor ou igual ao valor máximo.");
@@ -110,10 +135,14 @@ function getRandomNumber(min, max) {
     return getRandomNumber.numbers.pop();
   }
   
-  // Função para embaralhar o array
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
+
+  function porcentagemParaCurrentTime(porcentagem, tempoTotal){
+        novoTempoAtual = Math.floor((tempoTotal*porcentagem)/100);
+        return(novoTempoAtual);
+}
